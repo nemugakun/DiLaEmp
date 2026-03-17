@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DiLaEmpLibrary/DiLaEmpLibrary.csproj" />
+  <Project Path="DiLaEmp/DiLaEmp.csproj" />
+</Solution>
