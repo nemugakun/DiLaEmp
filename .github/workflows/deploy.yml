@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.X'
+          dotnet-version: '10.0.x'
 
       - name: Publish
         run: dotnet publish src/DiLaEmp/DiLaEmp.csproj -c Release -o release /p:BaseHref=/DiLaEmp/
@@ -43,6 +43,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Download artifact
+        uses: actions/download-pages-artifact@v1
+
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
