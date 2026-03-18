@@ -1,0 +1,16 @@
+@using DiLaEmp.Localization
+
+<div class="input-group mb-3" id="dateWrapper">
+    <span class="input-group-text">
+        <i class="bi bi-calendar-event"></i>
+    </span>
+    <input type="date" class="form-control" @bind="Date" disabled="@SetDisabled"/>
+</div>
+
+@code {
+    [Parameter]
+    public DateOnly Date { get; set; }
+
+    [Parameter]
+    public bool SetDisabled { get; set; }
+}

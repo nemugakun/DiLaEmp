@@ -1,20 +1,67 @@
 ﻿@page "/calculator"
 @using DiLaEmp.Localization
+@using DiLaEmpLibrary.Calculators
 @inject IStringLocalizer<CultureDiLaEmp> Loc
 
-<PageTitle>@Loc["calculator"]</PageTitle>
+<PageTitle>@Loc["Calculator"]</PageTitle>
 
-<h1>Counter</h1>
+<div class="d-flex flex-column align-items-start gap-2">
+    <div class="form-check">
+        <input id="inputCalculateEndDate" class="form-check-input" type="radio" checked="@(isCalculateEndDate)"
+               name="Calculate" @onchange="@(() => isCalculateEndDate = true)" />
+        <label class="form-check-label" for="inputCalculateEndDate">@Loc["CalculateEndDate"]</label>
+    </div>
+    
+    <div class="form-check">
+        <input id="inputCalculateAmountHours" class="form-check-input" type="radio" checked="@(!isCalculateEndDate)"
+               name="Calculate" @onchange="@(() => isCalculateEndDate = false)" />
+        <label class="form-check-label" for="inputCalculateAmountHours">@Loc["CalculateAmountHours"]</label>
+    </div>
 
-<p role="status">Current count: @currentCount</p>
+    <div class="d-flex align-items-baseline gap-3">
+        <div class="form-label text-nowrap">@Loc["StartDate"]: </div>
+        <VisualDate Date="@startDate"/>
+    </div>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <div class="d-flex align-items-baseline gap-3">
+        <div class="form-label text-nowrap">@Loc["HoursPerDay"]: </div>
+        <InputNumber step="0.01" class="form-control" @bind-Value="hoursPerDay" />
+    </div>
+
+    <div class="d-flex align-items-baseline gap-3">
+        <div class="form-label text-nowrap">@Loc["AmountHours"]: </div>
+        <InputNumber step="0.01" class="form-control" @bind-Value="amountHours" disabled=@{!isCalculateEndDate} />
+    </div>
+
+    <div class="d-flex align-items-baseline gap-3">
+        <div class="form-label text-nowrap">@Loc["AmountDays"]: </div>
+        <InputNumber step="0.01" class="form-control" @bind-Value="amountDays" disabled=@{isCalculateEndDate} />
+    </div>
+
+    <div class="d-flex align-items-baseline gap-3">
+        <div class="form-label text-nowrap">@Loc["EndDate"]: </div>
+        <VisualDate Date=@endDate SetDisabled=@isCalculateEndDate />
+    </div>
+</div>
+
+
+
+
+
+
+<button class="btn btn-primary" @onclick="Calculate">Calcular</button>
 
 @code {
-    private int currentCount = 0;
+    private DateOnly startDate = DateOnly.FromDateTime(DateTime.UtcNow);
+    private DateOnly endDate;
+    private int amountHours;
+    private decimal amountDays;
+    private decimal hoursPerDay = 8;
+    private bool isCalculateEndDate = true;
 
-    private void IncrementCount()
+    private void Calculate()
     {
-        currentCount++;
+        (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursPerDay);
+        
     }
 }

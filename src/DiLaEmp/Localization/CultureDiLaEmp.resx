@@ -120,6 +120,18 @@
   <data name="About" xml:space="preserve">
     <value>Acerca de</value>
   </data>
+  <data name="AmountDays" xml:space="preserve">
+    <value>Cantidad de días</value>
+  </data>
+  <data name="AmountHours" xml:space="preserve">
+    <value>Cantidad de horas</value>
+  </data>
+  <data name="CalculateAmountHours" xml:space="preserve">
+    <value>Calcular la cantidad de horas</value>
+  </data>
+  <data name="CalculateEndDate" xml:space="preserve">
+    <value>Calcular el último día</value>
+  </data>
   <data name="Calculator" xml:space="preserve">
     <value>Calculadora</value>
   </data>
@@ -127,10 +139,16 @@
     <value>Calendarios</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>Fecha Fin</value>
+    <value>Fecha de finalización</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Principal</value>
+  </data>
+  <data name="HoursPerDay" xml:space="preserve">
+    <value>Horas laborales por cada día</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Fecha de inicio</value>
   </data>
   <data name="TitleName" xml:space="preserve">
     <value>Business Work Day</value>

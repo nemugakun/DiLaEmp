@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿/*using System.Collections.ObjectModel;
 
 DateOnly start = new DateOnly(2026, 3, 18);
 int hours = 400;
@@ -41,3 +41,4 @@ static bool NeitherWeekendNorHolidays(DateOnly end, Collection<DateOnly> holiday
     end.DayOfWeek != DayOfWeek.Sunday &&
     ! holidays.Contains(end)
     ;
+*/

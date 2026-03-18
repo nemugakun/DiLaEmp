@@ -15,4 +15,8 @@
     <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DiLaEmpLibrary\DiLaEmpLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
