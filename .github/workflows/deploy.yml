@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '10.0.X'
 
       - name: Publish
-        run: dotnet publish -c Release -o release /p:BaseHref=/DiLaEmp/
+        run: dotnet publish src/DiLaEmp/DiLaEmp.csproj -c Release -o release /p:BaseHref=/DiLaEmp/
 
       - name: Copy index.html to 404.html
         run: cp release/wwwroot/index.html release/wwwroot/404.html
