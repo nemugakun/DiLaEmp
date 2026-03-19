@@ -1,0 +1,58 @@
+@using DiLaEmp.Localization
+@using DiLaEmpLibrary.Calculators
+@using System.Globalization
+@using DiLaEmpLibrary.Utils
+@inject IStringLocalizer<CultureDiLaEmp> Loc
+
+
+<div class="d-flex flex-wrap gap-3 ms-5">
+@foreach (var dayOfWeek in weeks)
+{
+    <div class="d-flex align-items-baseline gap-3 border p-2">
+        <div class="form-label text-nowrap">@DayOfWeekUtils.GetNameOfDayOfWeek(dayOfWeek, CultureInfo.CurrentCulture): </div>
+        <input type="number" step="0.01" class="form-control" 
+               @bind:get="dayOfWeek == DayOfWeek.Monday ? HoursOnMonday :
+                        dayOfWeek == DayOfWeek.Tuesday ? HoursOnTuesday :
+                        dayOfWeek == DayOfWeek.Wednesday ? HoursOnWednesday :
+                        dayOfWeek == DayOfWeek.Thursday ? HoursOnThursday :
+                        dayOfWeek == DayOfWeek.Friday ? HoursOnFriday :
+                        dayOfWeek == DayOfWeek.Saturday ? HoursOnSaturday : HoursOnSunday"
+            @bind:set="val => { 
+                        if (dayOfWeek == DayOfWeek.Monday) HoursOnMonday = val; 
+                    else if (dayOfWeek == DayOfWeek.Tuesday) HoursOnTuesday = val;
+                    else if (dayOfWeek == DayOfWeek.Wednesday) HoursOnWednesday = val;
+                    else if (dayOfWeek == DayOfWeek.Thursday) HoursOnThursday = val;
+                    else if (dayOfWeek == DayOfWeek.Friday) HoursOnFriday = val;
+                    else if (dayOfWeek == DayOfWeek.Saturday) HoursOnSaturday = val;
+                    else HoursOnSunday = val;}" 
+        />
+        <div class="form-label"> @Loc["hours"] </div>
+    </div>
+}
+</div>
+
+
+@code{
+    [Parameter]
+    public decimal HoursOnMonday { get; set; }
+
+    [Parameter]
+    public decimal HoursOnTuesday { get; set; }
+
+    [Parameter]
+    public decimal HoursOnWednesday { get; set; }
+
+    [Parameter]
+    public decimal HoursOnThursday { get; set; }
+
+    [Parameter]
+    public decimal HoursOnFriday { get; set; }
+
+    [Parameter]
+    public decimal HoursOnSaturday { get; set; }
+
+    [Parameter]
+    public decimal HoursOnSunday { get; set; }
+
+    private List<DayOfWeek> weeks = DayOfWeekUtils.GetWeekFromCulture(CultureInfo.CurrentCulture);
+}

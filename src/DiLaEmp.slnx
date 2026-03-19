@@ -1,4 +1,5 @@
 <Solution>
-  <Project Path="DiLaEmpLibrary/DiLaEmpLibrary.csproj" />
+  <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" Id="a7a8d847-71cd-4f42-a1e9-5186beea6dc4" />
   <Project Path="DiLaEmp/DiLaEmp.csproj" />
+  <Project Path="DiLaEmpLibrary/DiLaEmpLibrary.csproj" />
 </Solution>

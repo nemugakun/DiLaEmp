@@ -18,27 +18,31 @@
         <label class="form-check-label" for="inputCalculateAmountHours">@Loc["CalculateAmountHours"]</label>
     </div>
 
-    <div class="d-flex align-items-baseline gap-3">
+    <div class="d-flex align-items-baseline gap-3 p-2 mt-3">
         <div class="form-label text-nowrap">@Loc["StartDate"]: </div>
         <VisualDate Date="@startDate"/>
     </div>
 
-    <div class="d-flex align-items-baseline gap-3">
-        <div class="form-label text-nowrap">@Loc["HoursPerDay"]: </div>
-        <InputNumber step="0.01" class="form-control" @bind-Value="hoursPerDay" />
+    <div class="d-flex flex-wrap align-items-baseline gap-3 border p-2">
+        <div class="form-label text-nowrap card-title">@Loc["HoursOn"]: </div>
+        <HoursByDayOfWeek HoursOnMonday="@hoursOnMonday" HoursOnTuesday="@hoursOnTuesday" HoursOnWednesday="@hoursOnWednesday"
+                          HoursOnThursday="@hoursOnThursday" HoursOnFriday="@hoursOnFriday" HoursOnSaturday="@hoursOnSaturday"
+                          HoursOnSunday="@hoursOnSunday"/>
     </div>
 
-    <div class="d-flex align-items-baseline gap-3">
+    <div class="d-flex align-items-baseline gap-3 p-2">
         <div class="form-label text-nowrap">@Loc["AmountHours"]: </div>
         <InputNumber step="0.01" class="form-control" @bind-Value="amountHours" disabled=@{!isCalculateEndDate} />
+        <div class="form-label text-nowrap"> @Loc["hours"]</div>
     </div>
 
-    <div class="d-flex align-items-baseline gap-3">
+    <div class="d-flex align-items-baseline gap-3 p-2">
         <div class="form-label text-nowrap">@Loc["AmountDays"]: </div>
         <InputNumber step="0.01" class="form-control" @bind-Value="amountDays" disabled=@{isCalculateEndDate} />
+        <div class="form-label text-nowrap"> @Loc["days"]</div>
     </div>
 
-    <div class="d-flex align-items-baseline gap-3">
+    <div class="d-flex align-items-baseline gap-3 p-2">
         <div class="form-label text-nowrap">@Loc["EndDate"]: </div>
         <VisualDate Date=@endDate SetDisabled=@isCalculateEndDate />
     </div>
@@ -49,19 +53,41 @@
 
 
 
-<button class="btn btn-primary" @onclick="Calculate">Calcular</button>
+<button class="btn btn-primary m-2" @onclick="Calculate">Calcular</button>
 
 @code {
     private DateOnly startDate = DateOnly.FromDateTime(DateTime.UtcNow);
     private DateOnly endDate;
     private int amountHours;
     private decimal amountDays;
-    private decimal hoursPerDay = 8;
+    private decimal hoursOnMonday = 8;
+    private decimal hoursOnTuesday = 8;
+    private decimal hoursOnWednesday = 8;
+    private decimal hoursOnThursday = 8;
+    private decimal hoursOnFriday = 8;
+    private decimal hoursOnSaturday = 0;
+    private decimal hoursOnSunday = 0;
+
     private bool isCalculateEndDate = true;
 
     private void Calculate()
     {
-        (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursPerDay);
-        
+        IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
+        (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay);
+
+    }
+
+    private IDictionary<DayOfWeek, decimal> generateHoursByDay()
+    {
+        return new SortedDictionary<DayOfWeek, decimal>
+        {
+            { DayOfWeek.Monday, hoursOnMonday },
+            { DayOfWeek.Tuesday, hoursOnTuesday },
+            { DayOfWeek.Wednesday, hoursOnWednesday },
+            { DayOfWeek.Thursday, hoursOnThursday },
+            { DayOfWeek.Friday, hoursOnFriday },
+            { DayOfWeek.Saturday, hoursOnSaturday },
+            { DayOfWeek.Sunday, hoursOnSunday }
+        };
     }
 }

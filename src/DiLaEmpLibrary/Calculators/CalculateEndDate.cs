@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiLaEmpLibrary.Utils;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -9,37 +10,68 @@ namespace DiLaEmpLibrary.Calculators
     {
         public static (DateOnly, decimal) CalculateTheEndDate(
             DateOnly start,
-            int hours,
-            decimal hoursByDay,
+            decimal hours,
+            IDictionary<DayOfWeek, decimal> hoursByDay,
             Collection<DateOnly>? holidays = null)
         {
-            decimal days = hours / hoursByDay;
-            decimal remainingDays = days;
+            decimal days = 0;
+            decimal remainingHours = hours;
 
             //Console.WriteLine("Días " + days);
-            DateOnly end = start;
-            while (remainingDays > 0)
+            DateOnly iDay = start;
+            while (remainingHours > 0)
             {
-                if (NeitherWeekendNorHolidays(end, holidays))
+                if (isLaboralDay(iDay, hoursByDay, holidays))
                 {
-                    remainingDays--;
+                    remainingHours -= hoursByDay[iDay.DayOfWeek];
+                    days++;
                 }
-                end = end.AddDays(1);
+                iDay = iDay.AddDays(1);
             }
-            end = end.AddDays(-1);
+            DateOnly end = iDay.AddDays(-1);
 
             //Console.WriteLine(end);
 
             return (end, days);
         }
 
-        private static bool NeitherWeekendNorHolidays(DateOnly end, Collection<DateOnly>? holidays)
+        private static bool isLaboralDay(
+            DateOnly day, 
+            IDictionary<DayOfWeek, decimal> hoursByDay, 
+            Collection<DateOnly>? holidays
+            )
         {
-            return 
-                end.DayOfWeek != DayOfWeek.Saturday &&
-                end.DayOfWeek != DayOfWeek.Sunday &&
-                (holidays == null || !holidays.Contains(end));
+            bool isLaboralDay = false;
+            if (dayOfTheWeekIsInHoursByDayVariable(day, hoursByDay))
+            {
+                // The day variable is in the hoursByDay variable, so we can check if it has more than 0 hours.
+                if (dayOfTheWeekHasMoreThanZeroHours(day, hoursByDay))
+                {
+                    // The day variable has more than 0 hours, so we can check if it is a holiday or not.
+                    if (holidays != null && holidays.Contains(day))
+                    {
+                        // Is a holiday day.
+                        isLaboralDay = false;
+                    }
+                    else
+                    {
+                        // Is a laboral day.
+                        isLaboralDay = true;
+                    }
+                }
+            }
+            return isLaboralDay;
+
         }
 
+        private static bool dayOfTheWeekHasMoreThanZeroHours(DateOnly day, IDictionary<DayOfWeek, decimal> hoursByDay)
+        {
+            return hoursByDay[day.DayOfWeek] > 0;
+        }
+
+        private static bool dayOfTheWeekIsInHoursByDayVariable(DateOnly day, IDictionary<DayOfWeek, decimal> hoursByDay)
+        {
+            return hoursByDay.ContainsKey(day.DayOfWeek);
+        }
     }
 }
