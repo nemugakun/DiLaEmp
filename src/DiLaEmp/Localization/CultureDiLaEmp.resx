@@ -138,20 +138,11 @@
   <data name="Calendars" xml:space="preserve">
     <value>Calendarios</value>
   </data>
-  <data name="days" xml:space="preserve">
-    <value>días</value>
-  </data>
   <data name="EndDate" xml:space="preserve">
     <value>Fecha de finalización</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Principal</value>
-  </data>
-  <data name="hours" xml:space="preserve">
-    <value>horas</value>
-  </data>
-  <data name="HoursOn" xml:space="preserve">
-    <value>Horas durante los</value>
   </data>
   <data name="HoursPerDay" xml:space="preserve">
     <value>Horas laborales por cada día</value>
@@ -161,5 +152,17 @@
   </data>
   <data name="TitleName" xml:space="preserve">
     <value>Business Work Day</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>días</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>horas</value>
+  </data>
+  <data name="HoursOn" xml:space="preserve">
+    <value>Horas durante los</value>
+  </data>
+  <data name="SelectHolidays" xml:space="preserve">
+    <value>Indica los días que serán festivos</value>
   </data>
 </root>

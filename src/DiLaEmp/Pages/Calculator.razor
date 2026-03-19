@@ -48,12 +48,15 @@
     </div>
 </div>
 
-
-
-
-
-
 <button class="btn btn-primary m-2" @onclick="Calculate">Calcular</button>
+
+<div class="p-2">
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Gap="0.5rem" class="rz-p-12">
+        <RadzenLabel Text="@Loc["SelectHolidays"]" Component="DatePickerMultiple" />
+        <RadzenDatePicker Multiple @bind-Value=@holidays DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" Name="DatePickerMultiple" />
+    </RadzenStack>
+</div>
+
 
 @code {
     private DateOnly startDate = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -67,6 +70,8 @@
     private decimal hoursOnFriday = 8;
     private decimal hoursOnSaturday = 0;
     private decimal hoursOnSunday = 0;
+
+    private IEnumerable<DateTime?> holidays = new SortedSet<DateTime?>();
 
     private bool isCalculateEndDate = true;
 
