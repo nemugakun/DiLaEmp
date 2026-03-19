@@ -8,7 +8,16 @@
 <div class="d-flex flex-wrap gap-3 ms-5">
 @foreach (var dayOfWeek in weeks)
 {
-    <div class="d-flex align-items-baseline gap-3 border p-2">
+    <div class="d-flex align-items-baseline gap-3 border p-2 
+  @(dayOfWeek == DayOfWeek.Monday && HoursOnMonday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+    dayOfWeek == DayOfWeek.Tuesday && HoursOnTuesday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+    dayOfWeek == DayOfWeek.Wednesday && HoursOnWednesday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+    dayOfWeek == DayOfWeek.Thursday && HoursOnThursday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+    dayOfWeek == DayOfWeek.Friday && HoursOnFriday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+    dayOfWeek == DayOfWeek.Saturday && HoursOnSaturday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+    dayOfWeek == DayOfWeek.Sunday && HoursOnSunday == 0 ? bootstrapColorIfHoursOnADayAreZero : ""
+    )
+">
         <div class="form-label text-nowrap">@DayOfWeekUtils.GetNameOfDayOfWeek(dayOfWeek, CultureInfo.CurrentCulture): </div>
         <input type="number" step="0.01" class="form-control" 
                @bind:get="dayOfWeek == DayOfWeek.Monday ? HoursOnMonday :
@@ -55,4 +64,5 @@
     public decimal HoursOnSunday { get; set; }
 
     private List<DayOfWeek> weeks = DayOfWeekUtils.GetWeekFromCulture(CultureInfo.CurrentCulture);
+    private string bootstrapColorIfHoursOnADayAreZero = "bg-warning-subtle";
 }
