@@ -1,7 +1,6 @@
 ﻿using DiLaEmpLibrary.Utils;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
 
 namespace DiLaEmpLibrary.Calculators
@@ -12,7 +11,7 @@ namespace DiLaEmpLibrary.Calculators
             DateOnly start,
             decimal hours,
             IDictionary<DayOfWeek, decimal> hoursByDay,
-            Collection<DateOnly>? holidays = null)
+            ICollection<DateOnly>? holidays = null)
         {
             decimal days = 0;
             decimal remainingHours = hours;
@@ -38,7 +37,7 @@ namespace DiLaEmpLibrary.Calculators
         private static bool isLaboralDay(
             DateOnly day, 
             IDictionary<DayOfWeek, decimal> hoursByDay, 
-            Collection<DateOnly>? holidays
+            ICollection<DateOnly>? holidays
             )
         {
             bool isLaboralDay = false;

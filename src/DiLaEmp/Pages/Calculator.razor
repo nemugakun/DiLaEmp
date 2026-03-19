@@ -48,14 +48,11 @@
     </div>
 </div>
 
-<button class="btn btn-primary m-2" @onclick="Calculate">Calcular</button>
-
-<div class="p-2">
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Gap="0.5rem" class="rz-p-12">
-        <RadzenLabel Text="@Loc["SelectHolidays"]" Component="DatePickerMultiple" />
-        <RadzenDatePicker Multiple @bind-Value=@holidays DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" Name="DatePickerMultiple" />
-    </RadzenStack>
+<div class="p-2 border">
+    <CalendarWrapper Holidays="@holidays" />
 </div>
+
+<button class="btn btn-primary m-2" @onclick="Calculate">Calcular</button>
 
 
 @code {
@@ -71,14 +68,15 @@
     private decimal hoursOnSaturday = 0;
     private decimal hoursOnSunday = 0;
 
-    private IEnumerable<DateTime?> holidays = new SortedSet<DateTime?>();
+    private SortedSet<DateTime?> holidays = new SortedSet<DateTime?>();
 
     private bool isCalculateEndDate = true;
 
     private void Calculate()
     {
+        Console.WriteLine($"Size: {holidays.Count()}");
         IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
-        (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay);
+        (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay, GetHolidaysAsDateOnly());
 
     }
 
@@ -94,5 +92,18 @@
             { DayOfWeek.Saturday, hoursOnSaturday },
             { DayOfWeek.Sunday, hoursOnSunday }
         };
+    }
+
+    private ICollection<DateOnly> GetHolidaysAsDateOnly()
+    {
+        SortedSet<DateOnly> dateOnlyHolidays = new SortedSet<DateOnly>();
+        foreach (var holiday in holidays)
+        {
+            if (holiday.HasValue)
+            {
+                dateOnlyHolidays.Add(DateOnly.FromDateTime(holiday.Value));
+            }
+        }
+        return dateOnlyHolidays;
     }
 }

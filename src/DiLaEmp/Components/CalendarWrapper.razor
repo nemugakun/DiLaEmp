@@ -1,0 +1,35 @@
+@using DiLaEmp.Localization
+@using DiLaEmpLibrary.Calculators
+@inject IStringLocalizer<CultureDiLaEmp> Loc
+
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="">@*  JustifyContent="JustifyContent.Center" *@
+    <RadzenLabel Text="@Loc["SelectHolidays"]" Component="DatePickerMultiple" />
+    <RadzenDatePicker Multiple="true"
+                      TValue="SortedSet<DateTime?>"
+                      Value="@Holidays"
+                      DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" 
+                      Name="DatePickerMultiple" 
+                      Change="@OnHolidaysChange" /> @* @bind-Value=@Holidays  *@
+</RadzenStack>
+
+@code{
+    [Parameter]
+    [EditorRequired]
+    public SortedSet<DateTime?> Holidays { get; set; }
+
+    [Parameter]
+    public EventCallback<SortedSet<DateTime?>> HolidaysChanged { get; set; }
+
+    private async Task OnHolidaysChange(DateTime? args)
+    {
+        if (Holidays.Contains(args))
+        {
+            Holidays.Remove(args);
+        }
+        else
+        {
+            Holidays.Add(args);
+        }
+        await HolidaysChanged.InvokeAsync(Holidays);
+    }
+}
