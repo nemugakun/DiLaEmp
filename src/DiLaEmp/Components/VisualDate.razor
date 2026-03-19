@@ -1,16 +1,53 @@
 @using DiLaEmp.Localization
 
-<div class="input-group" id="dateWrapper">
+<div class="input-group" id="dateWrapper" style="color: black !important; opacity: 1;">
     @* <span class="input-group-text">
         <i class="bi bi-calendar-event"></i>
     </span> *@
-    <input type="date" class="form-control" @bind="Date" disabled="@SetDisabled"/>
+    @* <input type="date" class="form-control" @bind="Date" disabled="@SetDisabled"/> *@
+    <RadzenDatePicker @bind-Value=@RadzenDate Name="RadzenDatePickerBindValue" ShowCalendarWeek
+                        DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" 
+                        Change="OnDateChange"
+                        Disabled="@SetDisabled"
+                        InputAttributes="@(SetDisabled ? 
+                                    new Dictionary<string, object>() { { 
+                                            "style", "color: black; font-weight: bold;" 
+                                    } } : new Dictionary<string, object>()
+                                        )" />
 </div>
 
 @code {
     [Parameter]
-    public DateOnly Date { get; set; }
+    public DateOnly Date
+    {
+        get;
+        set{ 
+            field = value; 
+            SetRadzenDate(value); 
+        }
+    }
+
+    // {
+    //     get
+    //     {
+    //         return DateOnly.FromDateTime(RadzenDate ?? DateTime.MinValue);
+    //     }
+    //     set
+    //     {
+    //         RadzenDate = value.ToDateTime(TimeOnly.MinValue);
+    //     }
+    // }
 
     [Parameter]
     public bool SetDisabled { get; set; }
+
+    private DateTime? RadzenDate;
+    private void OnDateChange(DateTime? args)
+    {
+        Date = DateOnly.FromDateTime(args ?? DateTime.MinValue);
+    }
+    private void SetRadzenDate(DateOnly value)
+    {
+        RadzenDate = value.ToDateTime(TimeOnly.MinValue);
+    }
 }
