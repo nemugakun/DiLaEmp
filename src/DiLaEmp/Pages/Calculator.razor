@@ -66,7 +66,7 @@
 @code {
     private DateOnly startDate = DateOnly.FromDateTime(DateTime.UtcNow);
     private DateOnly endDate;
-    private int amountHours;
+    private decimal amountHours;
     private decimal amountDays;
     private decimal hoursOnMonday = 8;
     private decimal hoursOnTuesday = 8;
@@ -82,19 +82,26 @@
 
     private void Calculate()
     {
+        IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
+
         if (isCalculateEndDate)
         {
-            IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
-
             (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay,
                         DateUtils.GetDateOnlysFromDateTimes(holidays));
         }
         else
         {
-            
+            Console.WriteLine("Primer punto");
+            int daiis;
+            decimal hoursss; //(amountDays, amountHours)
+            Console.WriteLine(startDate);
+            Console.WriteLine(endDate);
+            (daiis, hoursss) = CalculateAmountDays.CalculateDays(startDate, endDate, hoursByDay,
+                        DateUtils.GetDateOnlysFromDateTimes(holidays));
+            Console.WriteLine(daiis);
+            Console.WriteLine(hoursss);
+            Console.WriteLine("Fin punto");
         }
-
-
     }
 
     private IDictionary<DayOfWeek, decimal> generateHoursByDay()

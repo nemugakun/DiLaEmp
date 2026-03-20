@@ -5,33 +5,28 @@ using System.Text;
 
 namespace DiLaEmpLibrary.Calculators
 {
-    public class CalculateEndDate
+    public static class CalculateAmountDays
     {
-        public static (DateOnly, decimal) CalculateTheEndDate(
+        public static (int, decimal) CalculateDays(
             DateOnly start,
-            decimal hours,
+            DateOnly end,
             IDictionary<DayOfWeek, decimal> hoursByDay,
             ICollection<DateOnly>? holidays = null)
         {
-            decimal days = 0;
-            decimal remainingHours = hours;
-
-            //Console.WriteLine("Días " + days);
+            int days = 0;
+            decimal hours = 0;
             DateOnly iDay = start;
-            while (remainingHours > 0)
+            DateOnly endPlusOne = end.AddDays(1);
+            while (iDay < endPlusOne)
             {
                 if (CalculatorsUtils.IsLaboralDay(iDay, hoursByDay, holidays))
                 {
-                    remainingHours -= hoursByDay[iDay.DayOfWeek];
                     days++;
+                    hours += hoursByDay[iDay.DayOfWeek];
                 }
                 iDay = iDay.AddDays(1);
             }
-            DateOnly end = iDay.AddDays(-1);
-
-            //Console.WriteLine(end);
-
-            return (end, days);
+            return (days, hours);
         }
     }
 }

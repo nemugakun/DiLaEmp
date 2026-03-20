@@ -23,17 +23,6 @@
         }
     }
 
-    // {
-    //     get
-    //     {
-    //         return DateOnly.FromDateTime(RadzenDate ?? DateTime.MinValue);
-    //     }
-    //     set
-    //     {
-    //         RadzenDate = value.ToDateTime(TimeOnly.MinValue);
-    //     }
-    // }
-
     [Parameter]
     public bool SetDisabled { get; set; }
 
@@ -44,6 +33,7 @@
     }
     private void SetRadzenDate(DateOnly value)
     {
+        Console.WriteLine($"Date set to {value}");
         RadzenDate = value.ToDateTime(TimeOnly.MinValue);
     }
 }
