@@ -14,26 +14,22 @@
 
 @code {
     [Parameter]
-    public DateOnly Date
-    {
-        get;
-        set{ 
-            field = value; 
-            SetRadzenDate(value); 
-        }
-    }
+    public DateOnly Date{ get; set; }
+
+    [Parameter]
+    public EventCallback<DateOnly> DateChanged { get; set; }
 
     [Parameter]
     public bool SetDisabled { get; set; }
 
     private DateTime? RadzenDate;
-    private void OnDateChange(DateTime? args)
+    private async Task OnDateChange(DateTime? args)
     {
         Date = DateOnly.FromDateTime(args ?? DateTime.MinValue);
+        await DateChanged.InvokeAsync(Date);
     }
-    private void SetRadzenDate(DateOnly value)
+    protected override void OnParametersSet()
     {
-        Console.WriteLine($"Date set to {value}");
-        RadzenDate = value.ToDateTime(TimeOnly.MinValue);
+        RadzenDate = Date.ToDateTime(TimeOnly.MinValue);
     }
 }
