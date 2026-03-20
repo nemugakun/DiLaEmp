@@ -38,7 +38,7 @@
 
     <div class="d-flex align-items-baseline gap-3 p-2">
         <div class="form-label text-nowrap">@Loc["AmountDays"]: </div>
-        <InputNumber step="0.01" class="form-control" @bind-Value="amountDays" disabled=@{isCalculateEndDate} />
+        <InputNumber step="0.01" class="form-control" @bind-Value="amountDays" disabled />
         <div class="form-label text-nowrap"> @Loc["days"]</div>
     </div>
 
@@ -48,11 +48,19 @@
     </div>
 </div>
 
-<div class="p-2 border">
-    <CalendarWrapper Holidays="@holidays" />
+<div class="align-items-baseline gap-3 p-2 mt-3 mb-4 border">
+    <div class="form-label text-nowrap card-title">@Loc["HolidayCalendar"]: </div>
+    <div class="gap-3 ms-5">
+        <CalendarWrapper Holidays="@holidays" />
+    </div>
 </div>
 
-<button class="btn btn-primary m-2" @onclick="Calculate">Calcular</button>
+<div class="mb-5">
+    <RadzenButton Text="@Loc["Calculate"]"
+                  Icon="calculate"
+                  Click="@Calculate"
+                  ButtonStyle="ButtonStyle.Primary" />
+</div>
 
 
 @code {
@@ -74,9 +82,18 @@
 
     private void Calculate()
     {
-        Console.WriteLine($"Size: {holidays.Count()}");
-        IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
-        (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay, GetHolidaysAsDateOnly());
+        if (isCalculateEndDate)
+        {
+            IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
+
+            (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay,
+                        DateUtils.GetDateOnlysFromDateTimes(holidays));
+        }
+        else
+        {
+            
+        }
+
 
     }
 
@@ -92,18 +109,5 @@
             { DayOfWeek.Saturday, hoursOnSaturday },
             { DayOfWeek.Sunday, hoursOnSunday }
         };
-    }
-
-    private ICollection<DateOnly> GetHolidaysAsDateOnly()
-    {
-        SortedSet<DateOnly> dateOnlyHolidays = new SortedSet<DateOnly>();
-        foreach (var holiday in holidays)
-        {
-            if (holiday.HasValue)
-            {
-                dateOnlyHolidays.Add(DateOnly.FromDateTime(holiday.Value));
-            }
-        }
-        return dateOnlyHolidays;
     }
 }

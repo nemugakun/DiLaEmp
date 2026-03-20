@@ -1,10 +1,6 @@
 @using DiLaEmp.Localization
 
 <div class="input-group" id="dateWrapper" style="color: black !important; opacity: 1;">
-    @* <span class="input-group-text">
-        <i class="bi bi-calendar-event"></i>
-    </span> *@
-    @* <input type="date" class="form-control" @bind="Date" disabled="@SetDisabled"/> *@
     <RadzenDatePicker @bind-Value=@RadzenDate Name="RadzenDatePickerBindValue" ShowCalendarWeek
                         DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" 
                         Change="OnDateChange"

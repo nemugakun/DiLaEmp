@@ -165,4 +165,25 @@
   <data name="SelectHolidays" xml:space="preserve">
     <value>Indica los días que serán festivos</value>
   </data>
+  <data name="LoadCalendar" xml:space="preserve">
+    <value>Cargar un calendario (opcional)</value>
+  </data>
+  <data name="CalendarName" xml:space="preserve">
+    <value>Nombre del calendario (opcional)</value>
+  </data>
+  <data name="SaveCalendar" xml:space="preserve">
+    <value>Guardar el calendario</value>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Calendario</value>
+  </data>
+  <data name="InsertCalendarName" xml:space="preserve">
+    <value>Introduzca el nombre del calendario</value>
+  </data>
+  <data name="HolidayCalendar" xml:space="preserve">
+    <value>Calendario de vacaciones</value>
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value>Calcular</value>
+  </data>
 </root>

@@ -2,14 +2,34 @@
 @using DiLaEmpLibrary.Calculators
 @inject IStringLocalizer<CultureDiLaEmp> Loc
 
-<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="">@*  JustifyContent="JustifyContent.Center" *@
-    <RadzenLabel Text="@Loc["SelectHolidays"]" Component="DatePickerMultiple" />
-    <RadzenDatePicker Multiple="true"
-                      TValue="SortedSet<DateTime?>"
-                      Value="@Holidays"
-                      DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" 
-                      Name="DatePickerMultiple" 
-                      Change="@OnHolidaysChange" /> @* @bind-Value=@Holidays  *@
+<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" Gap="0.5rem" Style="padding: 0.5em">
+    <div class="border gap-5">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="padding: 0.5em">
+            <RadzenLabel Text="@(Loc["LoadCalendar"] + ": ")" Style="white-space: nowrap;" />
+            <InputFile OnChange="HandleFileSelected" />
+        </RadzenStack>
+    </div>
+
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="padding: 0.5em">
+        @*  JustifyContent="JustifyContent.Center" *@
+        <RadzenLabel Text="@(Loc["SelectHolidays"] + ": ")" Component="DatePickerMultiple" Style="white-space: nowrap;" />
+        <RadzenDatePicker Multiple="true"
+                          TValue="SortedSet<DateTime?>"
+                          Value="@Holidays"
+                          DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" 
+                          Name="DatePickerMultiple" 
+                          Change="@OnHolidaysChange" />
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="padding: 0.5em">
+        <RadzenLabel Text="@(Loc["CalendarName"] + ": ")" Style="white-space: nowrap;" />
+        <RadzenTextBox Placeholder="@Loc["InsertCalendarName"]" @bind-Value="CalendarName" Style="width: 100%" aria-label="TextBox with placeholder" />
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="padding: 0.5em">
+        <RadzenButton Text="@Loc["SaveCalendar"]"
+                      Icon="save"
+                      Click="@ExportAsJson"
+                      ButtonStyle="ButtonStyle.Primary" />
+    </RadzenStack>
 </RadzenStack>
 
 @code{
@@ -19,6 +39,9 @@
 
     [Parameter]
     public EventCallback<SortedSet<DateTime?>> HolidaysChanged { get; set; }
+
+    [Parameter]
+    public string? CalendarName { get; set; }
 
     private async Task OnHolidaysChange(DateTime? args)
     {
@@ -31,5 +54,57 @@
             Holidays.Add(args);
         }
         await HolidaysChanged.InvokeAsync(Holidays);
+    }
+
+    private async Task SaveCalendar()
+    {
+        var data = new DiLaEmpLibrary.Objects.Calendar { 
+            Name = CalendarName ?? "", 
+            Dates = DateUtils.GetDateOnlysFromDateTimes(Holidays)
+        };
+        var json = JsonSerializer.Serialize(data);
+
+        @inject IJSRuntime JS
+
+        await JS.InvokeVoidAsync("downloadFile", CalendarName + ".json", json);
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs args)
+    {
+        var file = args.File;
+
+        using var stream = file.OpenReadStream();
+        using var reader = new StreamReader(stream);
+
+        var json = await reader.ReadToEndAsync();
+
+        var data = JsonSerializer.Deserialize<DiLaEmpLibrary.Objects.Calendar>(json);
+        if (data is not null)
+        {
+            if (data.Dates is not null)
+            {
+                Holidays = DateUtils.GetDateTimesFromDateOnlys(data.Dates);
+            }
+            if (data.Name is not null)
+            {
+                CalendarName = data.Name;
+            }
+            return;
+        }
+    }
+
+    private async Task ExportAsJson()
+    {
+        var myData = new DiLaEmpLibrary.Objects.Calendar
+        {
+            Name = CalendarName ?? "",
+            Dates = DateUtils.GetDateOnlysFromDateTimes(Holidays)
+        };
+
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        string jsonString = JsonSerializer.Serialize(myData, options);
+
+        @inject IJSRuntime JS
+        await JS.InvokeVoidAsync("downloadFile", (CalendarName ?? Loc["Calendar"]) + ".json", jsonString);
     }
 }
