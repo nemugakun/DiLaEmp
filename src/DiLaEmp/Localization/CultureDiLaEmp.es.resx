@@ -186,4 +186,13 @@
   <data name="Calculate" xml:space="preserve">
     <value>Calcular</value>
   </data>
+  <data name="ShowCalendar" xml:space="preserve">
+    <value>Mostrar calendario</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Laboral</value>
+  </data>
+  <data name="Holiday" xml:space="preserve">
+    <value>Festivo</value>
+  </data>
 </root>

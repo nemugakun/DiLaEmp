@@ -1,6 +1,7 @@
 @using DiLaEmp.Localization
 @using DiLaEmpLibrary.Calculators
 @inject IStringLocalizer<CultureDiLaEmp> Loc
+@inject IJSRuntime JS
 
 <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" Gap="0.5rem" Style="padding: 0.5em">
     <div class="border gap-5">
@@ -64,8 +65,6 @@
         };
         var json = JsonSerializer.Serialize(data);
 
-        @inject IJSRuntime JS
-
         await JS.InvokeVoidAsync("downloadFile", CalendarName + ".json", json);
     }
 
@@ -84,6 +83,7 @@
             if (data.Dates is not null)
             {
                 Holidays = DateUtils.GetDateTimesFromDateOnlys(data.Dates);
+                await HolidaysChanged.InvokeAsync(Holidays);
             }
             if (data.Name is not null)
             {
@@ -104,7 +104,6 @@
         var options = new JsonSerializerOptions { WriteIndented = true };
         string jsonString = JsonSerializer.Serialize(myData, options);
 
-        @inject IJSRuntime JS
         await JS.InvokeVoidAsync("downloadFile", (CalendarName ?? Loc["Calendar"]) + ".json", jsonString);
     }
 }

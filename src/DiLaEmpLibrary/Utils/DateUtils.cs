@@ -11,6 +11,11 @@ namespace DiLaEmpLibrary.Utils
             return DateOnly.FromDateTime(dt);
         }
 
+        public static DateTime GetDateTimeFromDateOnly(DateOnly dt, bool maxTimeOnly = false)
+        {
+            return dt.ToDateTime(maxTimeOnly ? TimeOnly.MinValue : TimeOnly.MaxValue);
+        }
+
         public static DayOfWeek GetDayOfWeekFromDateTime(DateTime dt)
         {
             return dt.DayOfWeek;

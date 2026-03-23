@@ -1,7 +1,9 @@
 ﻿@page "/calculator"
 @using DiLaEmp.Localization
+@using DiLaEmp.Utils.Calendar.Objects
 @using DiLaEmpLibrary.Calculators
 @inject IStringLocalizer<CultureDiLaEmp> Loc
+@inject IJSRuntime JS
 
 <PageTitle>@Loc["Calculator"]</PageTitle>
 
@@ -51,16 +53,42 @@
 <div class="align-items-baseline gap-3 p-2 mt-3 mb-4 border">
     <div class="form-label text-nowrap card-title">@Loc["HolidayCalendar"]: </div>
     <div class="gap-3 ms-5">
-        <CalendarWrapper Holidays="@holidays" />
+        <CalendarWrapper @bind-Holidays="@holidays" />
     </div>
 </div>
 
 <div class="mb-5">
-    <RadzenButton Text="@Loc["Calculate"]"
-                  Icon="calculate"
-                  Click="@Calculate"
-                  ButtonStyle="ButtonStyle.Primary" />
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="5rem" Style="padding: 0.5em">
+        <RadzenButton Text="@Loc["Calculate"]"
+                      Icon="calculate"
+                      Click="@Calculate"
+                      ButtonStyle="ButtonStyle.Primary" />
+    </RadzenStack>
 </div>
+
+@if (showWorkingDays)
+{
+    <div id="calculatedCalendar" class="mb-5">
+        <RadzenScheduler 
+                    style="height: 768px;" 
+                    TItem="CalendarAppointment" 
+                    Data=@appointments 
+                    StartProperty="Start" 
+                    EndProperty="End" 
+                    ShowHeader="true"
+                    TextProperty="Text"
+                    AppointmentRender="OnAppointmentRender"
+                    SlotRender=@OnSlotRender
+                    SelectedIndex="0">
+@*             
+                @ref=@schedulerCalendar
+                <RadzenDayView />  //If RadzenDay View and RadzenWeekView are used, then SelectedIndex must be changed (depending the default page you want to show by default).
+                <RadzenWeekView /> *@
+            <RadzenMonthView />
+        </RadzenScheduler>
+    </div>
+}
+
 
 
 @code {
@@ -76,27 +104,93 @@
     private decimal hoursOnSaturday = 0;
     private decimal hoursOnSunday = 0;
 
+    //private RadzenScheduler<Appointment> schedulerCalendar;
+    private SortedSet<CalendarAppointment> appointments = new();
+    private bool showWorkingDays = false;
+    private bool shouldScrollToCalculatedCalendar = false;
+
     private SortedSet<DateTime?> holidays = new SortedSet<DateTime?>();
 
     private bool isCalculateEndDate = true;
 
-    private void Calculate()
+    private async Task Calculate()
     {
-        IDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
+        showWorkingDays = false;
+        SortedDictionary<DayOfWeek, decimal> hoursByDay = generateHoursByDay();
+        SortedSet<DateOnly> holidaysInDateOnly = DateUtils.GetDateOnlysFromDateTimes(holidays);
 
         if (isCalculateEndDate)
         {
-            (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay,
-                        DateUtils.GetDateOnlysFromDateTimes(holidays));
+            (endDate, amountDays) = CalculateEndDate.CalculateTheEndDate(startDate, amountHours, hoursByDay, holidaysInDateOnly);
         }
         else
         {
-            (amountDays, amountHours) = CalculateAmountDays.CalculateDays(startDate, endDate, hoursByDay,
-                        DateUtils.GetDateOnlysFromDateTimes(holidays));
+            (amountDays, amountHours) = CalculateAmountDays.CalculateDays(startDate, endDate, hoursByDay, holidaysInDateOnly);
+        }
+
+        Console.WriteLine("End date: " + endDate );
+        await ShowCalendar(startDate, endDate, hoursByDay, holidaysInDateOnly);
+    }
+
+    private async Task ShowCalendar(DateOnly startDate, DateOnly endDate, SortedDictionary<DayOfWeek, decimal> hoursByDay,
+            SortedSet<DateOnly> holidaysInDateOnly)
+    {
+        showWorkingDays = false;
+
+        Console.WriteLine("End date: " + endDate);
+        appointments = CalculateCalendarAppointment.GenerateCalendarAppointments(
+            startDate, 
+            endDate, 
+            hoursByDay, 
+            holidaysInDateOnly, 
+            Loc.GetString("Working"), 
+            Loc.GetString("Holiday")
+        );
+
+        showWorkingDays = true;
+        shouldScrollToCalculatedCalendar = true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldScrollToCalculatedCalendar)
+        {
+            shouldScrollToCalculatedCalendar = false;
+            await ScrollTo("calculatedCalendar");
         }
     }
 
-    private IDictionary<DayOfWeek, decimal> generateHoursByDay()
+    private async Task ScrollTo(string idName)
+    {
+        await JS.InvokeVoidAsync("scrollToElement", idName);
+    }
+
+    private void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<CalendarAppointment> args)
+    {
+        // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
+        if (args.Data is not null)
+        {
+            if (args.Data.Text == Loc.GetString("Holiday"))
+            {
+                args.Attributes["style"] = "background: red";
+            }
+            else if (args.Data.Text == Loc.GetString("Working"))
+            {
+                args.Attributes["style"] = "background: blue";
+            }
+        }
+    }
+
+    private void OnSlotRender(SchedulerSlotRenderEventArgs args)
+    {
+        // Highlight today in month view
+        if (args.View?.Text == "Month" && args.Start.Date == DateTime.Today)
+        {
+            args.Attributes["style"] = "background: var(--rz-scheduler-highlight-background-color, rgba(255,220,40,.2));";
+        }
+    }
+
+    private SortedDictionary<DayOfWeek, decimal> generateHoursByDay()
     {
         return new SortedDictionary<DayOfWeek, decimal>
         {

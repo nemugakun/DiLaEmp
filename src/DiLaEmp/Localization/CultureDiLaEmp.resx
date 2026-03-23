@@ -118,72 +118,81 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Acerca de</value>
+    <value>About</value>
   </data>
   <data name="AmountDays" xml:space="preserve">
-    <value>Cantidad de días</value>
+    <value>Amount days</value>
   </data>
   <data name="AmountHours" xml:space="preserve">
-    <value>Cantidad de horas</value>
+    <value>Amount hours</value>
   </data>
   <data name="CalculateAmountHours" xml:space="preserve">
-    <value>Calcular la cantidad de horas</value>
+    <value>Calculate hours amount</value>
   </data>
   <data name="CalculateEndDate" xml:space="preserve">
-    <value>Calcular el último día</value>
+    <value>Calculate last day</value>
   </data>
   <data name="Calculator" xml:space="preserve">
-    <value>Calculadora</value>
+    <value>Calculator</value>
   </data>
   <data name="Calendars" xml:space="preserve">
-    <value>Calendarios</value>
+    <value>Calendars</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>Fecha de finalización</value>
+    <value>End date</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Principal</value>
+    <value>Home</value>
   </data>
   <data name="HoursPerDay" xml:space="preserve">
-    <value>Horas laborales por cada día</value>
+    <value>Working hours by day</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>Fecha de inicio</value>
+    <value>Start date</value>
   </data>
   <data name="TitleName" xml:space="preserve">
-    <value>Business Work Day</value>
+    <value>Working days</value>
   </data>
   <data name="days" xml:space="preserve">
-    <value>días</value>
+    <value>days</value>
   </data>
   <data name="hours" xml:space="preserve">
-    <value>horas</value>
+    <value>hours</value>
   </data>
   <data name="HoursOn" xml:space="preserve">
-    <value>Horas durante los</value>
+    <value>Hours on</value>
   </data>
   <data name="SelectHolidays" xml:space="preserve">
-    <value>Indica los días que serán festivos</value>
+    <value>Select holiday days</value>
   </data>
   <data name="LoadCalendar" xml:space="preserve">
-    <value>Cargar un calendario (opcional)</value>
+    <value>Load calendar (optional)</value>
   </data>
   <data name="CalendarName" xml:space="preserve">
-    <value>Nombre del calendario (opcional)</value>
+    <value>Calendar name (optional)</value>
   </data>
   <data name="SaveCalendar" xml:space="preserve">
-    <value>Guardar el calendario</value>
+    <value>Save calendar</value>
   </data>
   <data name="Calendar" xml:space="preserve">
-    <value>Calendario</value>
+    <value>Calendar</value>
   </data>
   <data name="InsertCalendarName" xml:space="preserve">
-    <value>Introduzca el nombre del calendario</value>
+    <value>Insert calendar name</value>
   </data>
   <data name="HolidayCalendar" xml:space="preserve">
-    <value>Calendario de vacaciones</value>
+    <value>Holiday calendar</value>
   </data>
   <data name="Calculate" xml:space="preserve">
-    <value>Calcular</value>
+    <value>Calculate</value>
+  </data>
+  <data name="ShowCalendar" xml:space="preserve">
+    <value>Show calendar</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Working</value>
+  </data>
+  <data name="Holiday" xml:space="preserve">
+    <value>Holiday</value>
   </data>
 </root>
