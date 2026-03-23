@@ -195,4 +195,37 @@
   <data name="Holiday" xml:space="preserve">
     <value>Holiday</value>
   </data>
+  <data name="CalendarsExplanation" xml:space="preserve">
+    <value>In this page you can generate and customize the holiday calendar for a city or a business.</value>
+  </data>
+  <data name="CalendarFirstStep" xml:space="preserve">
+    <value>First, we recommend to look for the holiday calendar of the city, where there must be some business</value>
+  </data>
+  <data name="CalendarSecondStep" xml:space="preserve">
+    <value>Then, annotate de holidays in the Calendar feature below.</value>
+  </data>
+  <data name="CalendarSecondStepWarning" xml:space="preserve">
+    <value>Warning, all holidays are not necessary to be pointed. Only the ones which affect the calculation. If you think there will be a holiday which may affect or may be not affect the calculation. Then add this holiday to the calendar below.</value>
+  </data>
+  <data name="CalendarThirdStep" xml:space="preserve">
+    <value>Finally, save the calendar in your computer (as a .json file). You can add a name to the calendar if you want to identify this calendar.</value>
+  </data>
+  <data name="CalendarNextStep" xml:space="preserve">
+    <value>Now, you can duplicate the file or change the holidays, in the calendar below, and save again as a new calendar or a concrete business calendar.</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Home page</value>
+  </data>
+  <data name="HomeExplanation" xml:space="preserve">
+    <value>This is a little web app to calculate the working days or the last day on a business for the work experience of a high school.</value>
+  </data>
+  <data name="HomeSaveWarning" xml:space="preserve">
+    <value>Warning: Due to the application type (web application), this app can not save your data nor progress. So, the only way to save your holiday calendars is to export them to a .json file.</value>
+  </data>
+  <data name="AboutCreatedBy" xml:space="preserve">
+    <value>App developed by: Néstor Fabio Muñoz García</value>
+  </data>
+  <data name="AboutEnhancemenets" xml:space="preserve">
+    <value>The author is not good as designer, so any enhancements you can develop are welcome. Make a PR (Pool Request) with your changes and they will be supervised and accepted or rejected.</value>
+  </data>
 </root>

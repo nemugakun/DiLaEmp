@@ -1,0 +1,25 @@
+﻿@page "/calendar"
+@using DiLaEmp.Localization
+@inject IStringLocalizer<CultureDiLaEmp> Loc
+
+<PageTitle>@Loc["Calendars"]</PageTitle>
+
+<h1>@Loc["Calendars"]</h1>
+
+<p>@Loc["CalendarsExplanation"]</p>
+<p>@Loc["CalendarFirstStep"]</p>
+<p>@Loc["CalendarSecondStep"]</p>
+<p>@Loc["CalendarSecondStepWarning"]</p>
+<p>@Loc["CalendarThirdStep"]</p>
+<p>@Loc["CalendarNextStep"]</p>
+
+<div class="align-items-baseline gap-3 p-2 mt-3 mb-4 border">
+    <div class="form-label text-nowrap card-title">@Loc["HolidayCalendar"]: </div>
+    <div class="gap-3 ms-5">
+        <CalendarWrapper @bind-Holidays="@holidays" />
+    </div>
+</div>
+
+@code {
+    private SortedSet<DateTime?> holidays = new SortedSet<DateTime?>();
+}

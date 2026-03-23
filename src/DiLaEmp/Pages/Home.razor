@@ -1,16 +1,14 @@
 ﻿@page "/"
+@using DiLaEmp.Localization
+@inject IStringLocalizer<CultureDiLaEmp> Loc
 
-<PageTitle>Home</PageTitle>
+<PageTitle>@Loc["Home"]</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>@Loc["HomePage"]</h1>
 
-Welcome to your new app.
-<p></p>
-<RadzenButton Click="@ButtonClicked" Text="Hi"></RadzenButton>
+<p>@Loc["HomeExplanation"]</p>
+<p>@Loc["HomeSaveWarning"]</p>
 
 @code {
-    void ButtonClicked()
-    {
-        // Handle the Click event of RadzenButton
-    }
+    
 }

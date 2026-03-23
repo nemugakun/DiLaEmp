@@ -195,4 +195,37 @@
   <data name="Holiday" xml:space="preserve">
     <value>Festivo</value>
   </data>
+  <data name="CalendarsExplanation" xml:space="preserve">
+    <value>En esta página se pueden generar y personalizar los calendarios festivos de una ciudad o una empresa.</value>
+  </data>
+  <data name="CalendarFirstStep" xml:space="preserve">
+    <value>Primero se recomienda buscar el calendario festivo de la ciudad, donde debieran estar varias empresas.</value>
+  </data>
+  <data name="CalendarSecondStep" xml:space="preserve">
+    <value>Entonces, anotar los días festivos en el calendario que se encuentra más abajo.</value>
+  </data>
+  <data name="CalendarSecondStepWarning" xml:space="preserve">
+    <value>Advertencia. No es necesario anotar todos los días festivos; sólo aquellos que vayan a afectar al cálculo. Si crees que puede haber un día festivo que puede afectar o no al cálculo, simplemente añade ese día al calendario de abajo.</value>
+  </data>
+  <data name="CalendarThirdStep" xml:space="preserve">
+    <value>Al final, guarda el calendario en tu ordenador (como archivo .json). Puedes añadirle un nombre al calendario si quisieras identificar este calendario.</value>
+  </data>
+  <data name="CalendarNextStep" xml:space="preserve">
+    <value>Ahora, puedes duplicar el archivo guardado o cambiar los días festivos, en el calendario de abajo, para guardarlo otra vez como otro calendario o como un calendario de una empresa concreta.</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Página principal</value>
+  </data>
+  <data name="HomeExplanation" xml:space="preserve">
+    <value>Esto es una pequeña aplicación web para calcular los días laborales o para calcular el último día en una empresa, para las prácticas en empresa de un instituto.</value>
+  </data>
+  <data name="HomeSaveWarning" xml:space="preserve">
+    <value>Advertencia: Debido a la naturaleza de la aplicación (es una aplicación Web), esta aplicación no puede guardar tus datos ni tu progreso. La única manera de guardar tus calendarios festivos es mediante la exportación de ellos a archivos de .json.</value>
+  </data>
+  <data name="AboutCreatedBy" xml:space="preserve">
+    <value>Aplicación creada por: Néstor Fabio Muñoz García</value>
+  </data>
+  <data name="AboutEnhancemenets" xml:space="preserve">
+    <value>El autor no es bueno como diseñador, así que cualquier mejora que se pueda desarrollar será bienvenida. Realizar un PR (Pool Request) con vuestros cambios y serán supervisados y aceptados o rechazados.</value>
+  </data>
 </root>
