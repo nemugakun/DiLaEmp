@@ -1,8 +1,5 @@
 ﻿using DiLaEmp.Utils.Calendar.Objects;
 using DiLaEmpLibrary.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DiLaEmpLibrary.Calculators
 {
@@ -19,8 +16,6 @@ namespace DiLaEmpLibrary.Calculators
             CalendarAppointment? appointment = null;
             StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
 
-            Console.WriteLine("End date: " + endDate);
-            Console.WriteLine("End date + 1: " + endDatePlusOne);
             while (iDate < endDatePlusOne)
             {
                 if (appointment is null)

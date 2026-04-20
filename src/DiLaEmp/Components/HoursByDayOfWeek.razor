@@ -8,7 +8,8 @@
 @foreach (var dayOfWeek in weeks)
 {
     <div class="d-flex align-items-baseline gap-3 border p-2 
-  @(dayOfWeek == DayOfWeek.Monday && HoursOnMonday == 0 ? bootstrapColorIfHoursOnADayAreZero :
+  @( @* Add a yellow (warning) background color to the input if the hours on that day are 0. *@
+    dayOfWeek == DayOfWeek.Monday && HoursOnMonday == 0 ? bootstrapColorIfHoursOnADayAreZero :
     dayOfWeek == DayOfWeek.Tuesday && HoursOnTuesday == 0 ? bootstrapColorIfHoursOnADayAreZero :
     dayOfWeek == DayOfWeek.Wednesday && HoursOnWednesday == 0 ? bootstrapColorIfHoursOnADayAreZero :
     dayOfWeek == DayOfWeek.Thursday && HoursOnThursday == 0 ? bootstrapColorIfHoursOnADayAreZero :
@@ -25,14 +26,14 @@
                         dayOfWeek == DayOfWeek.Thursday ? HoursOnThursday :
                         dayOfWeek == DayOfWeek.Friday ? HoursOnFriday :
                         dayOfWeek == DayOfWeek.Saturday ? HoursOnSaturday : HoursOnSunday"
-            @bind:set="val => { 
-                        if (dayOfWeek == DayOfWeek.Monday) HoursOnMonday = val; 
-                    else if (dayOfWeek == DayOfWeek.Tuesday) HoursOnTuesday = val;
-                    else if (dayOfWeek == DayOfWeek.Wednesday) HoursOnWednesday = val;
-                    else if (dayOfWeek == DayOfWeek.Thursday) HoursOnThursday = val;
-                    else if (dayOfWeek == DayOfWeek.Friday) HoursOnFriday = val;
-                    else if (dayOfWeek == DayOfWeek.Saturday) HoursOnSaturday = val;
-                    else HoursOnSunday = val;}" 
+            @bind:set="async val => { 
+                        if (dayOfWeek == DayOfWeek.Monday) {HoursOnMonday = val; await OnMondayChange(val);} 
+                    else if (dayOfWeek == DayOfWeek.Tuesday) {HoursOnTuesday = val; await OnTuesdayChange(val);}
+                    else if (dayOfWeek == DayOfWeek.Wednesday) {HoursOnWednesday = val; await OnWednesdayChange(val);}
+                    else if (dayOfWeek == DayOfWeek.Thursday) {HoursOnThursday = val; await OnThursdayChange(val);}
+                    else if (dayOfWeek == DayOfWeek.Friday) {HoursOnFriday = val; await OnFridayChange(val);}
+                    else if (dayOfWeek == DayOfWeek.Saturday) {HoursOnSaturday = val; await OnSaturdayChange(val);}
+                    else {HoursOnSunday = val; await OnSundayChange(val);}}" 
         />
         <div class="form-label"> @Loc["hours"] </div>
     </div>
@@ -43,24 +44,66 @@
 @code{
     [Parameter]
     public decimal HoursOnMonday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnMondayChanged { get; set; }
+    private async Task OnMondayChange(decimal args)
+    {
+        await HoursOnMondayChanged.InvokeAsync(args);
+    }
 
     [Parameter]
     public decimal HoursOnTuesday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnTuesdayChanged { get; set; }
+    private async Task OnTuesdayChange(decimal args)
+    {
+        await HoursOnTuesdayChanged.InvokeAsync(args);
+    }
 
     [Parameter]
     public decimal HoursOnWednesday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnWednesdayChanged { get; set; }
+    private async Task OnWednesdayChange(decimal args)
+    {
+        await HoursOnWednesdayChanged.InvokeAsync(args);
+    }
 
     [Parameter]
     public decimal HoursOnThursday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnThursdayChanged { get; set; }
+    private async Task OnThursdayChange(decimal args)
+    {
+        await HoursOnThursdayChanged.InvokeAsync(args);
+    }
 
     [Parameter]
     public decimal HoursOnFriday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnFridayChanged { get; set; }
+    private async Task OnFridayChange(decimal args)
+    {
+        await HoursOnFridayChanged.InvokeAsync(args);
+    }
 
     [Parameter]
     public decimal HoursOnSaturday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnSaturdayChanged { get; set; }
+    private async Task OnSaturdayChange(decimal args)
+    {
+        await HoursOnSaturdayChanged.InvokeAsync(args);
+    }
 
     [Parameter]
     public decimal HoursOnSunday { get; set; }
+    [Parameter]
+    public EventCallback<decimal> HoursOnSundayChanged { get; set; }
+    private async Task OnSundayChange(decimal args)
+    {
+        await HoursOnSundayChanged.InvokeAsync(args);
+    }
 
     private List<DayOfWeek> weeks = DayOfWeekUtils.GetWeekFromCulture(CultureInfo.CurrentCulture);
     private string bootstrapColorIfHoursOnADayAreZero = "bg-warning-subtle";
