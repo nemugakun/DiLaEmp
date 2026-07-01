@@ -3,6 +3,9 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
+TimeSpan periodo = new TimeSpan(0, 8, 15, 0);
+Console.WriteLine("Periodo: " + Convert.ToDecimal(periodo.TotalHours) + " horas");
+
 CultureInfo culturaES = new CultureInfo("es-ES"); // Español (España)
 CultureInfo culturaEN = new CultureInfo("en-US"); // Inglés (EE. UU.)
 

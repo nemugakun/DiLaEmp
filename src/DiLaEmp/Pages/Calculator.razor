@@ -97,13 +97,13 @@
     private DateOnly endDate;
     private decimal amountHours;
     private decimal amountDays;
-    private decimal hoursOnMonday = 8;
-    private decimal hoursOnTuesday = 8;
-    private decimal hoursOnWednesday = 8;
-    private decimal hoursOnThursday = 8;
-    private decimal hoursOnFriday = 8;
-    private decimal hoursOnSaturday = 0;
-    private decimal hoursOnSunday = 0;
+    private TimeSpan hoursOnMonday = TimeSpan.FromHours(8);
+    private TimeSpan hoursOnTuesday = TimeSpan.FromHours(8);
+    private TimeSpan hoursOnWednesday = TimeSpan.FromHours(8);
+    private TimeSpan hoursOnThursday = TimeSpan.FromHours(8);
+    private TimeSpan hoursOnFriday = TimeSpan.FromHours(8);
+    private TimeSpan hoursOnSaturday = TimeSpan.Zero;
+    private TimeSpan hoursOnSunday = TimeSpan.Zero;
 
     //private RadzenScheduler<Appointment> schedulerCalendar;
     private SortedSet<CalendarAppointment> appointments = new();
@@ -193,13 +193,13 @@
     {
         return new SortedDictionary<DayOfWeek, decimal>
         {
-            { DayOfWeek.Monday, hoursOnMonday },
-            { DayOfWeek.Tuesday, hoursOnTuesday },
-            { DayOfWeek.Wednesday, hoursOnWednesday },
-            { DayOfWeek.Thursday, hoursOnThursday },
-            { DayOfWeek.Friday, hoursOnFriday },
-            { DayOfWeek.Saturday, hoursOnSaturday },
-            { DayOfWeek.Sunday, hoursOnSunday }
+            { DayOfWeek.Monday, Convert.ToDecimal(hoursOnMonday.TotalHours) },
+            { DayOfWeek.Tuesday, Convert.ToDecimal(hoursOnTuesday.TotalHours) },
+            { DayOfWeek.Wednesday, Convert.ToDecimal(hoursOnWednesday.TotalHours) },
+            { DayOfWeek.Thursday, Convert.ToDecimal(hoursOnThursday.TotalHours) },
+            { DayOfWeek.Friday, Convert.ToDecimal(hoursOnFriday.TotalHours) },
+            { DayOfWeek.Saturday, Convert.ToDecimal(hoursOnSaturday.TotalHours) },
+            { DayOfWeek.Sunday, Convert.ToDecimal(hoursOnSunday.TotalHours) }
         };
     }
 }

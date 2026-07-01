@@ -1,0 +1,25 @@
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Gap="0.5rem">
+    <RadzenTimeSpanPicker Name="RadzenTimeSpanPickerMinMax"
+                         Min="@TimeSpan.Zero"
+                         Max="@TimeSpan.FromHours(24).Subtract(TimeSpan.FromSeconds(1))"
+                         Value="@DayOfWeek"
+                         ValueChanged="@ValueDayOfWeekChanged"
+                         TValue="TimeSpan"/>
+</RadzenStack>
+
+@code {
+    [Parameter]
+    public TimeSpan DayOfWeek { get; set; }
+
+    [Parameter]
+    public EventCallback<TimeSpan> DayOfWeekChanged { get; set; }
+
+    private async Task ValueDayOfWeekChanged(TimeSpan newValue)
+    {
+        DayOfWeek = newValue;
+        if (DayOfWeekChanged.HasDelegate)
+        {
+            await DayOfWeekChanged.InvokeAsync(newValue);
+        }
+    }
+}
