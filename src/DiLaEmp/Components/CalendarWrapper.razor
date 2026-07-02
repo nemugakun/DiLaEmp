@@ -13,12 +13,12 @@
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="padding: 0.5em">
         @*  JustifyContent="JustifyContent.Center" *@
         <RadzenLabel Text="@(Loc["SelectHolidays"] + ": ")" Component="DatePickerMultiple" Style="white-space: nowrap;" />
-        <RadzenDatePicker Multiple="true"
-                          TValue="SortedSet<DateTime?>"
-                          Value="@Holidays"
-                          DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern" 
+        <RadzenDatePicker Multiple
+                          TValue="List<DateTime?>"
+                          Value="@dayList"
+                          DateFormat="@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern"
                           Name="DatePickerMultiple" 
-                          Change="@OnHolidaysChange" />
+                          ValueChanged="@OnHolidaysChange" />
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="padding: 0.5em">
         <RadzenLabel Text="@(Loc["CalendarName"] + ": ")" Style="white-space: nowrap;" />
@@ -33,6 +33,13 @@
 </RadzenStack>
 
 @code{
+    /// <summary>
+    /// Due to some kind of bug in RadzenDatePicker, 
+    /// we need to use an useless variable to bind RadzenDatePicker.
+    /// This way, the Multiple RadzenDatePicker will not jump to the last month when selecting a date.
+    /// </summary>
+    private IEnumerable<DateTime?>? dayList = null;
+
     [Parameter]
     [EditorRequired]
     public SortedSet<DateTime?> Holidays { get; set; }
@@ -43,16 +50,15 @@
     [Parameter]
     public string? CalendarName { get; set; }
 
-    private async Task OnHolidaysChange(DateTime? args)
+    private async Task OnHolidaysChange(IEnumerable<DateTime?> dateList)
     {
-        if (Holidays.Contains(args))
+        // Due to the bug, we take all the dates selected in the RadzenDatePicker and assign them to the Holidays property.
+        Holidays.Clear();
+        foreach (var date in dateList)
         {
-            Holidays.Remove(args);
+            Holidays.Add(date);
         }
-        else
-        {
-            Holidays.Add(args);
-        }
+        
         await HolidaysChanged.InvokeAsync(Holidays);
     }
 
